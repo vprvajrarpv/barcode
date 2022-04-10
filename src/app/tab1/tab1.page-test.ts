@@ -12,8 +12,8 @@ import {Products} from '../product';
 export class Tab1Page {
   public scanData: string;
   public productList: any;
-  public quantityRem: number;
-  public quantityAdd: number;
+  public quantityRem: any;
+  public quantityAdd: any;
   private checkNum: number;
   /*passaggio variabile al costruttore, come fatto per HttpClient */
   constructor(private barcodeScanner: BarcodeScanner) {
@@ -24,12 +24,12 @@ export class Tab1Page {
     }).catch(err => {
       console.log('Error', err);
     });
-    this.productList = new Map<string,number>();
+    this.productList = new Map<string,Products>();
   }
   public productAdd(){
     if (!isNaN(this.quantityAdd) && this.quantityAdd>0){
       if (!this.productList.has(this.scanData)){
-        this.productList.set(this.scanData,this.quantityAdd);
+        this.productList.set(this.scanData,new Products());
       }
       else{
         this.productList.set(this.scanData,this.productList.get(this.scanData)+this.quantityAdd);
