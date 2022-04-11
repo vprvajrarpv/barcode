@@ -4,12 +4,19 @@ import {Component} from '@angular/core';
 import {BarcodeScanner} from '@awesome-cordova-plugins/barcode-scanner/ngx';
 import {Products} from '../product';
 
+interface Product{
+  productCode: string;
+  quantity: number;
+  removableQuantity: number;
+}
+
 @Component({
   selector: 'app-tab1',
   templateUrl: 'tab1.page.html',
   styleUrls: ['tab1.page.scss']
 })
-export class Tab1Page {
+
+export class Tab1Page{
   public scanData: string;
   public productList: any;
   public quantityRem: number;
@@ -24,15 +31,15 @@ export class Tab1Page {
     }).catch(err => {
       console.log('Error', err);
     });
-    this.productList = new Map<string,number>();
+    this.productList = [];
   }
+
   public productAdd(){
     if (!isNaN(this.quantityAdd) && this.quantityAdd>0){
-      if (!this.productList.has(this.scanData)){
-        this.productList.set(this.scanData,this.quantityAdd);
-      }
-      else{
-        this.productList.set(this.scanData,this.productList.get(this.scanData)+this.quantityAdd);
+      for (const productListKey in this.productList) {
+        if (this.productList.length()>0){
+          if (this.scanData != productListKey)
+        }
       }
     }
     this.quantityAdd = null;

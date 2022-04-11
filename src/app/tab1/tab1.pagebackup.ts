@@ -4,16 +4,23 @@ import {Component} from '@angular/core';
 import {BarcodeScanner} from '@awesome-cordova-plugins/barcode-scanner/ngx';
 import {Products} from '../product';
 
+interface Product{
+  productCode: string;
+  quantity: number;
+  removableQuantity: number;
+}
+
 @Component({
   selector: 'app-tab1',
   templateUrl: 'tab1.page.html',
   styleUrls: ['tab1.page.scss']
 })
+
 export class Tab1Page {
   public scanData: string;
   public productList: any;
-  public quantityRem: any;
-  public quantityAdd: any;
+  public quantityRem: number;
+  public quantityAdd: number;
   private checkNum: number;
   /*passaggio variabile al costruttore, come fatto per HttpClient */
   constructor(private barcodeScanner: BarcodeScanner) {
@@ -24,12 +31,12 @@ export class Tab1Page {
     }).catch(err => {
       console.log('Error', err);
     });
-    this.productList = new Map<string,Products>();
+    this.productList = new Map<string,number>();
   }
   public productAdd(){
     if (!isNaN(this.quantityAdd) && this.quantityAdd>0){
       if (!this.productList.has(this.scanData)){
-        this.productList.set(this.scanData,new Products());
+        this.productList.set(this.scanData,this.quantityAdd);
       }
       else{
         this.productList.set(this.scanData,this.productList.get(this.scanData)+this.quantityAdd);

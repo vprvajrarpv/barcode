@@ -1,7 +1,7 @@
 export class Products{
-  private barcode: any;
+  private productCode: any;
   private quantity: number;
-  private quanittyRem: number;
+  private removableQuantity: number;
   constructor() {
   }
 
