@@ -58,7 +58,10 @@ export class Tab1Page{
       console.log('Error', err);
     });
   }
-  public hasProduct(){
+  public hasProduct() {
+    if (this.productList.length === 0) {
+      return -1;
+    }
     for (let i = 0; i < this.productList.length; i++) {
       if (this.scanData === this.productList[i].productCode){
         return i;
@@ -66,7 +69,10 @@ export class Tab1Page{
     }
     return -1;
   }
-  public indexOfProduct(product){
+  public indexOfProduct(product) {
+    if (this.productList.length === 0) {
+      return -1;
+    }
     for (let i = 0; i < this.productList.length; i++){
       if (product === this.productList[i].productCode){
         return i;
