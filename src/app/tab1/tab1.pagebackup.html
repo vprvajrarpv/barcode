@@ -11,14 +11,13 @@
   Ultimo prodotto scannerizzato: {{scanData}} Aggiungi: <ion-input [(ngModel)]="quantityAdd" placeholder="N°"></ion-input>
   <ion-button (click)="productAdd()">Aggiungi</ion-button>
   <ion-list>
-    <ion-item *ngFor="let item of productList; let i = index">
-      {{item.productCode}}: {{item.quantity}} <ion-input [(ngModel)]="item.removableQuantity" placeholder="Numero"></ion-input>
-      <ion-button (click)="productRemove(item.productCode,i)">Rimuovi</ion-button>
+    <ion-item *ngFor="let item of productList | keyvalue">
+      {{item.key}}: {{item.value}} <ion-input [(ngModel)]="quantityRem" placeholder="N°"></ion-input>
+      <ion-button (click)="productRemove(item.key)">Rimuovi</ion-button>
     </ion-item>
   </ion-list>
 
 
   <br>
   <ion-button (click)="openScan()">Accendi lo scanner</ion-button>
-  Versione 1.2
 </ion-content>

@@ -4,11 +4,6 @@ import {Component} from '@angular/core';
 import {BarcodeScanner} from '@awesome-cordova-plugins/barcode-scanner/ngx';
 import {Products} from '../product';
 
-interface Product{
-  productCode: string;
-  quantity: number;
-  removableQuantity: number;
-}
 
 @Component({
   selector: 'app-tab1',
@@ -18,9 +13,9 @@ interface Product{
 
 export class Tab1Page{
   public scanData: string;
-  public productList: any;
+  public productList: Products[];
   public quantityRem: number;
-  public quantityAdd: number;
+  public quantityAdd: any;
   private checkNum: number;
   /*passaggio variabile al costruttore, come fatto per HttpClient */
   constructor(private barcodeScanner: BarcodeScanner) {
@@ -31,31 +26,29 @@ export class Tab1Page{
     }).catch(err => {
       console.log('Error', err);
     });
-    this.productList = [];
   }
 
   public productAdd(){
     if (!isNaN(this.quantityAdd) && this.quantityAdd>0){
-      for (const productListKey in this.productList) {
-        if (this.productList.length()>0){
-          if (this.scanData != productListKey)
-        }
+      if (this.indexOfProduct(this.scanData)===-1){
+        var prod = new Products();
+        this.productList.push(prod);
+      }
+      else{
+        this.productList[this.indexOfProduct(this.scanData)].quantity += parseInt(this.quantityAdd,10);
       }
     }
     this.quantityAdd = null;
     this.openScan();
   }
-  public productRemove(product){
-    this.checkNum = this.productList(product);
-    if (!isNaN(this.quantityRem)){
-      if (this.checkNum> this.quantityRem){
-        this.productList.set(product,this.productList.get(product)-this.quantityRem);
-      }
-      else{
-        this.productList.delete(product);
-      }
+  public productRemove(product,i){
+    if (this.productList[i].removableQuantity<this.productList[i].quantity){
+      this.productList[i].quantity -= this.productList[i].removableQuantity;
+      this.productList[i].removableQuantity = null;
     }
-    this.quantityRem = null;
+    else {
+      this.productList = this.removeItem(this.productList, i);
+    }
   }
   public openScan(){
     this.barcodeScanner.scan().then(barcodeData => {
@@ -64,5 +57,28 @@ export class Tab1Page{
     }).catch(err => {
       console.log('Error', err);
     });
+  }
+  public hasProduct(){
+    for (let i = 0; i < this.productList.length; i++) {
+      if (this.scanData === this.productList[i].productCode){
+        return i;
+      }
+    }
+    return -1;
+  }
+  public indexOfProduct(product){
+    for (let i = 0; i < this.productList.length; i++){
+      if (product === this.productList[i].productCode){
+        return i;
+      }
+    }
+    return -1;
+  }
+  public removeItem(arr, value) {
+    var index = value;
+    if (index > -1) {
+      arr.splice(index, 1);
+    }
+    return arr;
   }
 }
