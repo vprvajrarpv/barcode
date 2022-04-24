@@ -46,6 +46,13 @@ export class Tab1Page{
     this.quantityAdd = null;
     this.openScan();
   }
+  /**
+   * Questo metodo riceve in argomento un codice di un prodotto ed il suo indice dell'array, controlla che la quantità rimuovibile sia inferiore alla quantità disponbile,
+   * e se effettivamente è inferiore, allora la scala dalla quantità totale del prodotto e azzera la quantità rimuovibile, se la quantità rimuovibile e uguale o superiore
+   * alla quantità del prodotto, allora viene richiamato il metodo productRemove che rimuoverà il prodotto in questione
+   * @param product
+   * @param i
+   */
   public productRemove(product, i) {
     if (this.productList[i].removableQuantity < this.productList[i].quantity) {
       this.productList[i].quantity -= this.productList[i].removableQuantity;
@@ -55,25 +62,20 @@ export class Tab1Page{
       this.productList = this.removeItem(this.productList, i);
     }
   }
+  /**
+   * Questo metodo aprirà il lettore di codici
+   */
   public openScan(){
     this.barcodeScanner.scan().then(barcodeData => {
-      console.log('Barcode data', barcodeData);
       this.scanData = barcodeData.text;
     }).catch(err => {
       console.log('Error', err);
     });
   }
-  public hasProduct() {
-    if (this.productList.length === 0) {
-      return -1;
-    }
-    for (let i = 0; i < this.productList.length; i++) {
-      if (this.scanData === this.productList[i].productCode){
-        return i;
-      }
-    }
-    return -1;
-  }
+  /**
+   * Questo metodo viene utilizzato per cercare l'indice di un prodotto nell'array partendo dal suo codice, che è il parametro
+   * @param product
+   */
   public indexOfProduct(product) {
     if (this.productList.length === 0) {
       return -1;
@@ -85,6 +87,12 @@ export class Tab1Page{
     }
     return -1;
   }
+  /**
+   * Questo metodo ha 2 parametri: un array da cui verrai tolto un elemento, e l'indice dell'elemento che verrà rimosso;
+   * ritornerà l'array in questione senza l'elemento che è stato rimosso.
+   * @param arr
+   * @param value
+   */
   public removeItem(arr, value) {
     var index = value;
     if (index > -1) {
