@@ -13,7 +13,7 @@ import {Products} from '../product';
 
 export class Tab1Page{
   public scanData: string;
-  public productList: Products[];
+  public productList: any;
   public quantityRem: number;
   public quantityAdd: any;
   private checkNum: number;
@@ -23,15 +23,20 @@ export class Tab1Page{
     this.barcodeScanner.scan().then(barcodeData => {
       console.log('Barcode data', barcodeData);
       this.scanData = barcodeData.text;
+      this.productList = [];
     }).catch(err => {
       console.log('Error', err);
     });
   }
-
+  /** Questo metodo controlla prima che il numero passato dall'applicazione sia effettivamente un numero, e maggiore di 0;
+   *  dopodichè farà un cotrollo richiamando il metodo indexOfProduct per vedere se un prodotto esiste già, se non contiene
+   *  il prodotto scannerizzato, allora creerà una nuova istanza di prodotto*/
   public productAdd(){
-    if (!isNaN(this.quantityAdd) && this.quantityAdd>0){
-      if (this.indexOfProduct(this.scanData)===-1){
+    if (!isNaN(this.quantityAdd) && this.quantityAdd > 0) {
+      if (this.indexOfProduct(this.scanData) === -1) {
         var prod = new Products();
+        prod.productCode = this.scanData;
+        prod.quantity = parseInt(this.quantityAdd,10);
         this.productList.push(prod);
       }
       else{
@@ -41,8 +46,8 @@ export class Tab1Page{
     this.quantityAdd = null;
     this.openScan();
   }
-  public productRemove(product,i){
-    if (this.productList[i].removableQuantity<this.productList[i].quantity){
+  public productRemove(product, i) {
+    if (this.productList[i].removableQuantity < this.productList[i].quantity) {
       this.productList[i].quantity -= this.productList[i].removableQuantity;
       this.productList[i].removableQuantity = null;
     }
