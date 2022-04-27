@@ -8,7 +8,7 @@
 
 <ion-content [fullscreen]="true">
 
-  Ultimo prodotto scannerizzato: {{scanData}} Aggiungi: <ion-input [(ngModel)]="quantityAdd" placeholder="N°"></ion-input>
+  Ultimo prodotto scannerizzato: {{scanData}} Aggiungi: <ion-input [(ngModel)]="quantityAdd" placeholder="N°" [disabled]="inputDisable()"></ion-input>
   <ion-button (click)="productAdd()">Aggiungi</ion-button>
   <ion-list>
     <ion-item *ngFor="let item of productList; let i = index">
@@ -20,5 +20,5 @@
 
   <br>
   <ion-button (click)="openScan()">Accendi lo scanner</ion-button>
-  Versione 1.3.1
+  Versione 1.3.2
 </ion-content>

@@ -32,7 +32,7 @@ export class Tab1Page{
    *  dopodichè farà un cotrollo richiamando il metodo indexOfProduct per vedere se un prodotto esiste già, se non contiene
    *  il prodotto scannerizzato, allora creerà una nuova istanza di prodotto*/
   public productAdd(){
-    if (!isNaN(this.quantityAdd) && this.quantityAdd > 0) {
+    if (!isNaN(this.quantityAdd) && this.quantityAdd > 0 && this.scanData !== '') {
       if (this.indexOfProduct(this.scanData) === -1) {
         var prod = new Products();
         prod.productCode = this.scanData;
@@ -54,14 +54,17 @@ export class Tab1Page{
    * @param i
    */
   public productRemove(product, i) {
-    if (this.productList[i].removableQuantity < this.productList[i].quantity) {
-      this.productList[i].quantity -= this.productList[i].removableQuantity;
-      this.productList[i].removableQuantity = null;
+    if (this.productList[i].removableQuantity > 0){
+      if (this.productList[i].removableQuantity < this.productList[i].quantity) {
+        this.productList[i].quantity -= this.productList[i].removableQuantity;
+      }
+      else {
+        this.productList = this.removeItem(this.productList, i);
+      }
     }
-    else {
-      this.productList = this.removeItem(this.productList, i);
-    }
+    this.productList[i].removableQuantity = null;
   }
+
   /**
    * Questo metodo aprirà il lettore di codici
    */
@@ -99,5 +102,13 @@ export class Tab1Page{
       arr.splice(index, 1);
     }
     return arr;
+  }
+
+  /**
+   * Metodo che serve al tag "Disabled" per sapere quando disabilitare l'input, ovvero quando la stringa
+   * del prodotto è vuota.
+   */
+  public inputDisable(){
+    return this.scanData === '';
   }
 }
