@@ -7,11 +7,16 @@
 </ion-header>
 
 <ion-content [fullscreen]="true">
-  <ion-header collapse="condense">
-    <ion-toolbar>
-      <ion-title size="large">Tab 2</ion-title>
-    </ion-toolbar>
-  </ion-header>
-
-  <app-explore-container name="Tab 2 page"></app-explore-container>
+  <ion-list>
+    <ion-item *ngFor="let item of productList; let i = index">
+      <ion-label>
+        {{item.productCode}}
+        {{item.quantity}}
+        {{item.lotNumber}}
+        {{item.expirationData}}
+        <ion-input [(ngModel)]="item.removableQuantity" placeholder="Numero"></ion-input>
+      </ion-label>
+      <ion-button (click)="productRemove(item.productCode,i)">Rimuovi</ion-button>
+    </ion-item>
+  </ion-list>
 </ion-content>

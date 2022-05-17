@@ -1,7 +1,9 @@
 export class Products{
   private _productCode: any;
-  private _quantity: any;
-  private _removableQuantity: any;
+  private _quantity: number;
+  private _removableQuantity: number;
+  private _lotNumber: any;
+  private _expirationData: any;
   constructor() {
   }
 
@@ -28,5 +30,21 @@ export class Products{
 
   set removableQuantity(value: any) {
     this._removableQuantity = value;
+  }
+
+  get lotNumber(): any {
+    return this._lotNumber;
+  }
+
+  set lotNumber(value: any) {
+    this._lotNumber = value;
+  }
+
+  get expirationData(): any {
+    return this._expirationData;
+  }
+
+  set expirationData(value: any) {
+    this._expirationData = value;
   }
 }
